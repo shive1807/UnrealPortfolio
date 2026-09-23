@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class AegisCombat : ModuleRules
+public class AgiesCombatPortfolio : ModuleRules
 {
-	public AegisCombat(ReadOnlyTargetRules Target) : base(Target)
+	public AgiesCombatPortfolio(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 

@@ -1,10 +1,10 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "AegisCombatGameMode.h"
-#include "AegisCombatCharacter.h"
+#include "AgiesCombatPortfolioGameMode.h"
+#include "AgiesCombatPortfolioCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
-AAegisCombatGameMode::AAegisCombatGameMode()
+AAgiesCombatPortfolioGameMode::AAgiesCombatPortfolioGameMode()
 {
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPerson/Blueprints/BP_ThirdPersonCharacter"));

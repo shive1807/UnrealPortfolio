@@ -5,7 +5,7 @@
 	"Description": "",
 	"Modules": [
 		{
-			"Name": "AegisCombat",
+			"Name": "AgiesCombatPortfolio",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}
