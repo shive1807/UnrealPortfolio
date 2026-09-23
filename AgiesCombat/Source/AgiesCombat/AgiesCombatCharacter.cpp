@@ -1,6 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "AgiesCombatPortfolioCharacter.h"
+#include "AgiesCombatCharacter.h"
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -14,9 +14,9 @@
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 //////////////////////////////////////////////////////////////////////////
-// AAgiesCombatPortfolioCharacter
+// AAgiesCombatCharacter
 
-AAgiesCombatPortfolioCharacter::AAgiesCombatPortfolioCharacter()
+AAgiesCombatCharacter::AAgiesCombatCharacter()
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -54,7 +54,7 @@ AAgiesCombatPortfolioCharacter::AAgiesCombatPortfolioCharacter()
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
 
-void AAgiesCombatPortfolioCharacter::BeginPlay()
+void AAgiesCombatCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
@@ -72,7 +72,7 @@ void AAgiesCombatPortfolioCharacter::BeginPlay()
 //////////////////////////////////////////////////////////////////////////
 // Input
 
-void AAgiesCombatPortfolioCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AAgiesCombatCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	// Set up action bindings
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
@@ -82,10 +82,10 @@ void AAgiesCombatPortfolioCharacter::SetupPlayerInputComponent(UInputComponent* 
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		// Moving
-		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAgiesCombatPortfolioCharacter::Move);
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAgiesCombatCharacter::Move);
 
 		// Looking
-		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AAgiesCombatPortfolioCharacter::Look);
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AAgiesCombatCharacter::Look);
 	}
 	else
 	{
@@ -93,7 +93,7 @@ void AAgiesCombatPortfolioCharacter::SetupPlayerInputComponent(UInputComponent* 
 	}
 }
 
-void AAgiesCombatPortfolioCharacter::Move(const FInputActionValue& Value)
+void AAgiesCombatCharacter::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
@@ -116,7 +116,7 @@ void AAgiesCombatPortfolioCharacter::Move(const FInputActionValue& Value)
 	}
 }
 
-void AAgiesCombatPortfolioCharacter::Look(const FInputActionValue& Value)
+void AAgiesCombatCharacter::Look(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();

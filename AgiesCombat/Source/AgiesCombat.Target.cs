@@ -3,13 +3,13 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class AgiesCombatPortfolioTarget : TargetRules
+public class AgiesCombatTarget : TargetRules
 {
-	public AgiesCombatPortfolioTarget(TargetInfo Target) : base(Target)
+	public AgiesCombatTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V4;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_3;
-		ExtraModuleNames.Add("AgiesCombatPortfolio");
+		ExtraModuleNames.Add("AgiesCombat");
 	}
 }

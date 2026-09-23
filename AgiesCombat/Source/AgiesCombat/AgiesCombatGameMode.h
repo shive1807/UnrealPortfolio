@@ -4,15 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "AgiesCombatPortfolioGameMode.generated.h"
+#include "AgiesCombatGameMode.generated.h"
 
 UCLASS(minimalapi)
-class AAgiesCombatPortfolioGameMode : public AGameModeBase
+class AAgiesCombatGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
 public:
-	AAgiesCombatPortfolioGameMode();
+	AAgiesCombatGameMode();
 };
 
 
