@@ -31,3 +31,38 @@ void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	// ...
 }
 
+void UCombatComponent::Attack()
+{
+	if (!CanAttack())
+	{
+		return;
+	}
+
+	CombatState = ECombatState::Attacking;
+	LastAttackTime = GetWorld()->GetTimeSeconds();
+
+	UE_LOG(LogTemp, Warning, TEXT("%s attacked for %.1f damage"), *GetOwner()->GetName(), AttackDamage);
+
+	CombatState = ECombatState::Idle;
+}
+
+bool UCombatComponent::CanAttack() const
+{
+	if (CombatState != ECombatState::Idle)
+	{
+		return false;
+	}
+
+	if (!GetWorld())
+	{
+		return false;
+	}
+
+	const float CurrentTime = GetWorld()->GetTimeSeconds();
+	return CurrentTime - LastAttackTime >= AttackCooldown;
+}
+
+ECombatState UCombatComponent::GetCombatState() const
+{
+	return CombatState;
+}
