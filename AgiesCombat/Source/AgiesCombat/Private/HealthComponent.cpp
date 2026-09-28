@@ -77,3 +77,17 @@ float UHealthComponent::GetHealthPercent() const
 
 	return CurrentHealth / MaxHealth;
 }
+
+float UHealthComponent::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	if (DamageAmount <= 0.0f)
+	{
+		return 0.0f;
+	}
+
+	ApplyDamage(DamageAmount);
+
+	UE_LOG(LogTemp, Warning, TEXT("%s tool %.1f damage. Health: %.1f / %.1f"), *GetOwner()->GetName(), DamageAmount, CurrentHealth, MaxHealth);
+
+	return DamageAmount;
+}

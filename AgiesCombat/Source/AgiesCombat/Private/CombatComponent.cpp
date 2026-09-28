@@ -3,6 +3,7 @@
 
 #include "CombatComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UCombatComponent::UCombatComponent()
@@ -102,7 +103,11 @@ void UCombatComponent::PerformAttackTrace()
 
 	if (bHit && HitResult.GetActor())
 	{
+		AActor* HitActor = HitResult.GetActor();
+		
 		UE_LOG(LogTemp, Warning, TEXT("Attack hit: %s"), *HitResult.GetActor()->GetName());
+
+		UGameplayStatics::ApplyDamage(HitActor, AttackDamage, nullptr, GetOwner(), nullptr);
 	}
 	else
 	{
