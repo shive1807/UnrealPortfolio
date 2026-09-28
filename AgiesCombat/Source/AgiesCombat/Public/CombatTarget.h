@@ -31,5 +31,8 @@ public:
 
 private:
 	UFUNCTION()
+	void HandleHit();
+	
+	UFUNCTION()
 	void HandleDeath();
 };

@@ -16,6 +16,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
 );
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeath);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHit);
 
 UCLASS(ClassGroup = (Combat), meta = (BlueprintSpawnableComponent))
 class AGIESCOMBAT_API UHealthComponent : public UActorComponent
@@ -37,6 +38,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Health")
 	FOnDeath OnDeath;
+
+	UPROPERTY(BlueprintAssignable, Category = "Health")
+	FOnHit OnHit;
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	void ApplyDamage(float DamageAmount);

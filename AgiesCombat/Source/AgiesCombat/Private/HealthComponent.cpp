@@ -28,6 +28,7 @@ void UHealthComponent::ApplyDamage(float DamageAmount)
 	CurrentHealth = FMath::Clamp(CurrentHealth - DamageAmount,0.0f, MaxHealth);
 	const float HealthDelta = CurrentHealth - OldHealth;
 	OnHealthChanged.Broadcast(CurrentHealth, HealthDelta);
+	OnHit.Broadcast();
 
 	UE_LOG(
 		LogTemp,

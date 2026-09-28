@@ -31,6 +31,8 @@ void ACombatTarget::BeginPlay()
 
 	if (HealthComponent)
 	{
+		HealthComponent->OnHit.AddDynamic(this, &ACombatTarget::HandleHit);
+		
 		HealthComponent->OnDeath.AddDynamic(this, &ACombatTarget::HandleDeath);
 	}
 }
@@ -46,4 +48,9 @@ void ACombatTarget::HandleDeath()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s handling death"), *GetName());
 	SetActorEnableCollision(false);
+}
+
+void ACombatTarget::HandleHit()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s received a hit."), *GetName());
 }
