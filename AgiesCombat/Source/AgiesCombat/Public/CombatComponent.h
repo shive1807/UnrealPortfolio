@@ -48,7 +48,12 @@ private:
 	float AttackCooldown = 0.5f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	float AttackRange = 150.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	ECombatState CombatState = ECombatState::Idle;
 
 	float LastAttackTime = - BIG_NUMBER;
+
+	void PerformAttackTrace();
 };

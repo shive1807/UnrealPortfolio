@@ -2,7 +2,7 @@
 
 
 #include "CombatComponent.h"
-#include "AgiesCombat/Public/CombatComponent.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values for this component's properties
 UCombatComponent::UCombatComponent()
@@ -43,6 +43,7 @@ void UCombatComponent::Attack()
 
 	UE_LOG(LogTemp, Warning, TEXT("%s attacked for %.1f damage"), *GetOwner()->GetName(), AttackDamage);
 
+	PerformAttackTrace();
 	CombatState = ECombatState::Idle;
 }
 
@@ -65,4 +66,46 @@ bool UCombatComponent::CanAttack() const
 ECombatState UCombatComponent::GetCombatState() const
 {
 	return CombatState;
+}
+
+void UCombatComponent::PerformAttackTrace()
+{
+	if (!GetOwner())
+	{
+		return;
+	}
+
+	FVector Start = GetOwner()->GetActorLocation();
+	FVector Forward = GetOwner()->GetActorForwardVector();
+	FVector End = Start + (Forward * AttackRange);
+	FHitResult HitResult;
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(GetOwner());
+
+	const bool bHit = GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		Start,
+		End,
+		ECC_Visibility,
+		QueryParams);
+
+	DrawDebugLine(
+		GetWorld(),
+		Start,
+		End,
+		FColor::Red,
+		false,
+		1.0f,
+		0.0f,
+		2.0f);
+
+	if (bHit && HitResult.GetActor())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Attack hit: %s"), *HitResult.GetActor()->GetName());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Attack Missed"));
+	}
 }
