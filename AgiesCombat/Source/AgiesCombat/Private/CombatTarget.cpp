@@ -20,7 +20,6 @@ float ACombatTarget::TakeDamage(float DamageAmount, struct FDamageEvent const& D
 
 	HealthComponent->ApplyDamage(DamageAmount);
 
-	UE_LOG(LogTemp, Warning, TEXT("%s took %.1f damage"), *GetName(), DamageAmount);
 	return DamageAmount;
 }
 
@@ -29,7 +28,11 @@ float ACombatTarget::TakeDamage(float DamageAmount, struct FDamageEvent const& D
 void ACombatTarget::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	if (HealthComponent)
+	{
+		HealthComponent->OnDeath.AddDynamic(this, &ACombatTarget::HandleDeath);
+	}
 }
 
 // Called every frame
@@ -37,4 +40,10 @@ void ACombatTarget::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ACombatTarget::HandleDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s handling death"), *GetName());
+	SetActorEnableCollision(false);
 }
