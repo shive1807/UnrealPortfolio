@@ -35,4 +35,6 @@ private:
 	
 	UFUNCTION()
 	void HandleDeath();
+
+	FTimerHandle HitReactionTimer;
 };

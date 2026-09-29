@@ -2,6 +2,7 @@
 
 
 #include "CombatTarget.h"
+#include "TimerManager.h"
 
 // Sets default values
 ACombatTarget::ACombatTarget()
@@ -53,4 +54,21 @@ void ACombatTarget::HandleDeath()
 void ACombatTarget::HandleHit()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s received a hit."), *GetName());
+
+	//temp rotates the target when hit
+	
+
+	//Temp hit reaction
+	//Will replace it with animation later. 
+	SetActorTickEnabled(true);
+
+	GetWorldTimerManager().SetTimer(
+		HitReactionTimer,
+		[this]()
+		{
+			SetActorTickEnabled(false);
+		},
+		0.1f,
+		false
+		);
 }
