@@ -37,4 +37,7 @@ private:
 	void HandleDeath();
 
 	FTimerHandle HitReactionTimer;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Combat | Animation")
+	TObjectPtr<UAnimMontage> HitReactionMontage;
 };

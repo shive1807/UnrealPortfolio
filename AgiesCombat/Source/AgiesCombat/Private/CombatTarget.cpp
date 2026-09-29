@@ -3,6 +3,7 @@
 
 #include "CombatTarget.h"
 #include "TimerManager.h"
+#include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
 ACombatTarget::ACombatTarget()
@@ -55,12 +56,23 @@ void ACombatTarget::HandleHit()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s received a hit."), *GetName());
 
-	//temp rotates the target when hit
-	
+	if (!HitReactionMontage)
+	{
+		return;
+	}	
 
-	//Temp hit reaction
-	//Will replace it with animation later. 
-	const FRotator CurrentRotation = GetActorRotation();
+	USkeletalMeshComponent* Mesh = FindComponentByClass<USkeletalMeshComponent>();
 
-	SetActorRotation(CurrentRotation + FRotator(0.0f, 10.0f, 0.0f));
+	if (!Mesh)
+	{
+		return;
+	}
+
+	UAnimInstance* AnimInstance = Mesh->GetAnimInstance();
+	if (!AnimInstance)
+	{
+		return;
+	}
+
+	AnimInstance->Montage_Play(HitReactionMontage);
 }
