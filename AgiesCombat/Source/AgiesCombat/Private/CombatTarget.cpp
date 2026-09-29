@@ -74,5 +74,7 @@ void ACombatTarget::HandleHit()
 		return;
 	}
 
+	//temp log
+	UE_LOG(LogTemp, Warning, TEXT("Playing hit reaction montage on %s"), *GetName());
 	AnimInstance->Montage_Play(HitReactionMontage);
 }
