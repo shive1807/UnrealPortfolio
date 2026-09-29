@@ -60,15 +60,7 @@ void ACombatTarget::HandleHit()
 
 	//Temp hit reaction
 	//Will replace it with animation later. 
-	SetActorTickEnabled(true);
+	const FRotator CurrentRotation = GetActorRotation();
 
-	GetWorldTimerManager().SetTimer(
-		HitReactionTimer,
-		[this]()
-		{
-			SetActorTickEnabled(false);
-		},
-		0.1f,
-		false
-		);
+	SetActorRotation(CurrentRotation + FRotator(0.0f, 10.0f, 0.0f));
 }
