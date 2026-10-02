@@ -16,12 +16,19 @@ public:
 	// Sets default values for this actor's properties
 	ACombatTarget();
 
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
+	bool bIsDead = false;
+
+	UFUNCTION(BlueprintPure, Category = "Combat")
+	bool IsDead() const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UHealthComponent> HealthComponent;
+
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
@@ -40,4 +47,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Combat | Animation")
 	TObjectPtr<UAnimMontage> HitReactionMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Combat | Animation")
+	TObjectPtr<UAnimMontage> DeathMontage;
 };

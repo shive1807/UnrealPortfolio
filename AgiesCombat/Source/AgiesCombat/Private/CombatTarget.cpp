@@ -3,6 +3,7 @@
 
 #include "CombatTarget.h"
 #include "TimerManager.h"
+#include "Animation/AnimInstance.h"
 #include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
@@ -49,6 +50,28 @@ void ACombatTarget::Tick(float DeltaTime)
 void ACombatTarget::HandleDeath()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s handling death"), *GetName());
+
+	if (bIsDead)
+	{
+		return;
+	}
+
+	bIsDead = true;
+	
+	if (DeathMontage)
+	{
+		USkeletalMeshComponent* Mesh = FindComponentByClass<USkeletalMeshComponent>();
+
+		if (Mesh)
+		{
+			UAnimInstance* AnimInstance = Mesh->GetAnimInstance();
+			if (AnimInstance)
+			{
+				AnimInstance->Montage_Play(DeathMontage);
+			}
+		}
+	}
+	
 	SetActorEnableCollision(false);
 }
 
@@ -77,4 +100,9 @@ void ACombatTarget::HandleHit()
 	//temp log
 	UE_LOG(LogTemp, Warning, TEXT("Playing hit reaction montage on %s"), *GetName());
 	AnimInstance->Montage_Play(HitReactionMontage);
+}
+
+bool ACombatTarget::IsDead() const
+{
+	return bIsDead;
 }
