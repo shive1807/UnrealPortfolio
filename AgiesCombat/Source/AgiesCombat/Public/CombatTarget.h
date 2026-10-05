@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "HealthComponent.h"
-#include "GameFramework/Actor.h"
+#include "GameFramework/Character.h"
 #include "CombatTarget.generated.h"
 
 UCLASS()
-class AGIESCOMBAT_API ACombatTarget : public AActor
+class AGIESCOMBAT_API ACombatTarget : public ACharacter
 {
 	GENERATED_BODY()
 	
