@@ -32,6 +32,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Combat")
 	ECombatState GetCombatState() const;
 
+	UFUNCTION()
+	void PerformAttackHit();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

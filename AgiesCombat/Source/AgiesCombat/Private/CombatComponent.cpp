@@ -43,7 +43,7 @@ void UCombatComponent::Attack()
 	CombatState = ECombatState::Attacking;
 	LastAttackTime = GetWorld()->GetTimeSeconds();
 
-	UE_LOG(LogTemp, Warning, TEXT("%s attacked for %.1f damage"), *GetOwner()->GetName(), AttackDamage);
+	UE_LOG(LogTemp, Warning, TEXT("%s started attack"), *GetOwner()->GetName());
 
 	if (AttackMontage)
 	{
@@ -52,9 +52,23 @@ void UCombatComponent::Attack()
 			Character->PlayAnimMontage(AttackMontage);
 		}
 	}
-	
+}
+
+void UCombatComponent::PerformAttackHit()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AttackHit notify triggered"));
+
+	if (CombatState != ECombatState::Attacking)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AttackHit rejected - not attacking"));
+		return;
+	}
+
 	PerformAttackTrace();
+
 	CombatState = ECombatState::Idle;
+
+	UE_LOG(LogTemp, Warning, TEXT("CombatState reset to Idle"));
 }
 
 bool UCombatComponent::CanAttack() const
