@@ -108,11 +108,11 @@ void UCombatComponent::PerformAttackTrace()
 	QueryParams.AddIgnoredActor(GetOwner());
 
 	const bool bHit = GetWorld()->LineTraceSingleByChannel(
-		HitResult,
-		Start,
-		End,
-		ECC_Visibility,
-		QueryParams);
+    	HitResult,
+    	Start,
+    	End,
+    	ECC_Pawn,
+    	QueryParams);
 
 	DrawDebugLine(
 		GetWorld(),
