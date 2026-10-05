@@ -11,4 +11,7 @@ class AGIESCOMBAT_API AAegisEnemyAIController : public AAIController
 
 public:
     AAegisEnemyAIController();
+
+protected:
+    virtual void OnPossess(APawn* InPawn) override;
 };
