@@ -3,6 +3,7 @@
 
 #include "CombatComponent.h"
 #include "DrawDebugHelpers.h"
+#include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -44,6 +45,14 @@ void UCombatComponent::Attack()
 
 	UE_LOG(LogTemp, Warning, TEXT("%s attacked for %.1f damage"), *GetOwner()->GetName(), AttackDamage);
 
+	if (AttackMontage)
+	{
+		if (ACharacter* Character = Cast<ACharacter>(GetOwner()))
+		{
+			Character->PlayAnimMontage(AttackMontage);
+		}
+	}
+	
 	PerformAttackTrace();
 	CombatState = ECombatState::Idle;
 }

@@ -56,4 +56,7 @@ private:
 	float LastAttackTime = - BIG_NUMBER;
 
 	void PerformAttackTrace();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Combat")
+	UAnimMontage* AttackMontage;
 };
