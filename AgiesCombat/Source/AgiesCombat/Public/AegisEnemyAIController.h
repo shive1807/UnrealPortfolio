@@ -4,6 +4,8 @@
 #include "AIController.h"
 #include "AegisEnemyAIController.generated.h"
 
+class UBehaviorTree;
+
 UCLASS()
 class AGIESCOMBAT_API AAegisEnemyAIController : public AAIController
 {
@@ -14,4 +16,7 @@ public:
 
 protected:
     virtual void OnPossess(APawn* InPawn) override;
+
+    UPROPERTY(EditDefaultsOnly, Category = "AI")
+    TObjectPtr<UBehaviorTree> BehaviorTree;
 };

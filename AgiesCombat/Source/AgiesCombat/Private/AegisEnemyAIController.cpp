@@ -14,4 +14,9 @@ void AAegisEnemyAIController::OnPossess(APawn* InPawn)
 		TEXT("AegisEnemyAIController possessed: %s"),
 		*GetNameSafe(InPawn)
 	);
+
+	if (BehaviorTree)
+	{
+		RunBehaviorTree(BehaviorTree);
+	}
 }
