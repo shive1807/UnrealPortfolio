@@ -51,28 +51,30 @@ void ACombatTarget::HandleDeath()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s handling death"), *GetName());
 
+	// Prevent HandleDeath from running more than once.
 	if (bIsDead)
 	{
 		return;
 	}
 
 	bIsDead = true;
-	
-	if (DeathMontage)
-	{
-		USkeletalMeshComponent* Mesh = FindComponentByClass<USkeletalMeshComponent>();
 
-		if (Mesh)
-		{
-			UAnimInstance* AnimInstance = Mesh->GetAnimInstance();
-			if (AnimInstance)
-			{
-				AnimInstance->Montage_Play(DeathMontage);
-			}
-		}
-	}
-	
+	// Stop the death target from interacting with the world.
 	SetActorEnableCollision(false);
+
+	// Play the death animation.
+	// if (DeathMontage)
+	// {
+	// 	if (USkeletalMeshComponent* Mesh = FindComponentByClass<USkeletalMeshComponent>())
+	// 	{
+	// 		if (UAnimInstance* AnimInstance = Mesh->GetAnimInstance())
+	// 		{
+	// 			AnimInstance->Montage_Play(DeathMontage);
+	// 		}
+	// 	}
+	// }
+
+	UE_LOG(LogTemp, Warning, TEXT("%s is now dead"), *GetName());
 }
 
 void ACombatTarget::HandleHit()
