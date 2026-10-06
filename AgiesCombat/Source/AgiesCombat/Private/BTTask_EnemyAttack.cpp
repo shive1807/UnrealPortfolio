@@ -44,6 +44,13 @@ EBTNodeResult::Type UBTTask_EnemyAttack::ExecuteTask(
 		return EBTNodeResult::Failed;
 	}
 
+	UE_LOG(
+		LogTemp,
+		Warning,
+		TEXT("BTTask_EnemyAttack: Calling Attack on %s"),
+		*Enemy->GetName()
+	);
+
 	Combat->Attack();
 
 	return EBTNodeResult::Succeeded;

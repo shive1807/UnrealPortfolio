@@ -52,5 +52,14 @@ bool UBTDecorator_InAttackRange::CalculateRawConditionValue(
             Target->GetActorLocation()
         );
 
+    UE_LOG(
+    LogTemp,
+    Warning,
+    TEXT("Attack Range Check: Distance = %.2f, AttackRange = %.2f"),
+    Distance,
+    AttackRange
+);
+
+
     return Distance <= AttackRange;
 }
