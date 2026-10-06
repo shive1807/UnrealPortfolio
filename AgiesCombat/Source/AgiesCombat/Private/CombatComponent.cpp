@@ -60,15 +60,16 @@ void UCombatComponent::PerformAttackHit()
 
 	if (CombatState != ECombatState::Attacking)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AttackHit rejected - not attacking"));
+		UE_LOG(
+			LogTemp,
+			Warning,
+			TEXT("AttackHit rejected - not attacking")
+		);
+
 		return;
 	}
-
+	
 	PerformAttackTrace();
-
-	CombatState = ECombatState::Idle;
-
-	UE_LOG(LogTemp, Warning, TEXT("CombatState reset to Idle"));
 }
 
 bool UCombatComponent::CanAttack() const
@@ -136,4 +137,9 @@ void UCombatComponent::PerformAttackTrace()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Attack Missed"));
 	}
+}
+
+bool UCombatComponent::IsAttacking() const
+{
+	return CombatState == ECombatState::Attacking;
 }

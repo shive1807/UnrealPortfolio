@@ -34,6 +34,9 @@ public:
 
 	UFUNCTION()
 	void PerformAttackHit();
+		
+	UFUNCTION(BlueprintPure, Category = "Combat")
+	bool IsAttacking() const;
 
 protected:
 	// Called when the game starts
