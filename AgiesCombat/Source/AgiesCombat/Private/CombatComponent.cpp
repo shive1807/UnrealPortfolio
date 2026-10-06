@@ -4,6 +4,7 @@
 #include "CombatComponent.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/Character.h"
+#include "Animation/AnimInstance.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -50,6 +51,13 @@ void UCombatComponent::Attack()
 		if (ACharacter* Character = Cast<ACharacter>(GetOwner()))
 		{
 			Character->PlayAnimMontage(AttackMontage);
+
+			if (UAnimInstance* AnimInstance = Character->GetMesh()->GetAnimInstance())
+			{
+				FOnMontageEnded MontageEndedDelegate;
+				MontageEndedDelegate.BindUObject(this, &UCombatComponent::OnAttackMontageEnded);
+				AnimInstance->Montage_SetEndDelegate(MontageEndedDelegate, AttackMontage);
+			}
 		}
 	}
 }
@@ -143,3 +151,16 @@ bool UCombatComponent::IsAttacking() const
 {
 	return CombatState == ECombatState::Attacking;
 }
+
+void UCombatComponent::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	if (Montage != AttackMontage)
+	{
+		return;
+	}
+
+	CombatState = ECombatState::Idle;
+
+	UE_LOG(LogTemp, Warning, TEXT("Attack montage ended. CombatState reset to Idle"));
+}
+
