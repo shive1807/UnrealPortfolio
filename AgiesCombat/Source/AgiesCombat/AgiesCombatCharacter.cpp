@@ -1,6 +1,8 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "AgiesCombatCharacter.h"
+
+#include "AgiesCombatGameState.h"
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -126,5 +128,21 @@ void AAgiesCombatCharacter::Look(const FInputActionValue& Value)
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+
+void AAgiesCombatCharacter::HandleDeath()
+{
+	Super::HandleDeath();
+
+	AAgiesCombatGameState* GameState = GetWorld()->GetGameState<AAgiesCombatGameState>();
+
+	if (GameState)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PLAYER DIED - Broadcasting OnPlayerDied"));
+		GameState->OnPlayerDied.Broadcast();
+	}else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Could not find AgiesCombatGameState"));
 	}
 }
