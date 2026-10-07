@@ -3,6 +3,8 @@
 
 #include "CombatTarget.h"
 #include "TimerManager.h"
+#include "AIController.h"
+#include "BrainComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Components/SkeletalMeshComponent.h"
 
@@ -59,20 +61,21 @@ void ACombatTarget::HandleDeath()
 
 	bIsDead = true;
 
+	//stop this enemy AI
+	if (AAIController* AIController = Cast<AAIController>(GetController()))
+	{
+		AIController->StopMovement();
+		AIController->ClearFocus(EAIFocusPriority::Gameplay);
+
+		if (AIController->BrainComponent)
+		{
+			AIController->BrainComponent->StopLogic(TEXT("Enemy Died"));
+			UE_LOG(LogTemp, Warning, TEXT("%s AI stopped because enemy died"), *GetName());
+		}
+	}
+
 	// Stop the death target from interacting with the world.
 	SetActorEnableCollision(false);
-
-	// Play the death animation.
-	// if (DeathMontage)
-	// {
-	// 	if (USkeletalMeshComponent* Mesh = FindComponentByClass<USkeletalMeshComponent>())
-	// 	{
-	// 		if (UAnimInstance* AnimInstance = Mesh->GetAnimInstance())
-	// 		{
-	// 			AnimInstance->Montage_Play(DeathMontage);
-	// 		}
-	// 	}
-	// }
 
 	UE_LOG(LogTemp, Warning, TEXT("%s is now dead"), *GetName());
 }
