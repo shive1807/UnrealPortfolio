@@ -19,4 +19,7 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category = "AI")
     TObjectPtr<UBehaviorTree> BehaviorTree;
+
+    UFUNCTION()
+    void OnPlayerDied();
 };
