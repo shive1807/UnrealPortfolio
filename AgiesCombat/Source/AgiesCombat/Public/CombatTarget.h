@@ -29,6 +29,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	TObjectPtr<UHealthComponent> HealthComponent;
 
+	UFUNCTION()
+	virtual void HandleDeath();
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
@@ -40,8 +42,6 @@ private:
 	UFUNCTION()
 	void HandleHit();
 	
-	UFUNCTION()
-	void HandleDeath();
 
 	FTimerHandle HitReactionTimer;
 
