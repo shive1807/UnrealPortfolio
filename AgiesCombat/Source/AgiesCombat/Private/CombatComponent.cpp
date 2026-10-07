@@ -203,41 +203,32 @@ ECombatState UCombatComponent::GetCombatState() const
 
 void UCombatComponent::PerformAttackTrace()
 {
-	if (!GetOwner())
+	if (!GetOwner() || !GetWorld())
 	{
 		return;
 	}
 
-	FVector Start = GetOwner()->GetActorLocation();
-	FVector Forward = GetOwner()->GetActorForwardVector();
-	FVector End = Start + (Forward * AttackRange);
+	const FVector Start = GetOwner()->GetActorLocation() + GetOwner()->GetActorForwardVector() * 50.0f;
+	const FVector Forward = GetOwner()->GetActorForwardVector();
+	const FVector End = Start + Forward * AttackRange;
+	const float PunchRadius = 35.0f;
 	FHitResult HitResult;
 
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(GetOwner());
 
-	const bool bHit = GetWorld()->LineTraceSingleByChannel(
-    	HitResult,
-    	Start,
-    	End,
-    	ECC_Pawn,
-    	QueryParams);
+	const FCollisionShape Sphere = FCollisionShape::MakeSphere(PunchRadius);
+	const bool bHit = GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, ECC_Pawn, Sphere, QueryParams);
 
-	DrawDebugLine(
-		GetWorld(),
-		Start,
-		End,
-		FColor::Red,
-		false,
-		1.0f,
-		0.0f,
-		2.0f);
+	DrawDebugSphere(GetWorld(), Start, PunchRadius, 12, FColor::Red, false, 1.0f);
+	DrawDebugSphere(GetWorld(), End, PunchRadius, 12, FColor::Red, false, 1.0f);
+	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false,1.0f, 0, 2.0f);
 
 	if (bHit && HitResult.GetActor())
 	{
 		AActor* HitActor = HitResult.GetActor();
-		
-		UE_LOG(LogTemp, Warning, TEXT("Attack hit: %s"), *HitResult.GetActor()->GetName());
+
+		UE_LOG(LogTemp, Warning, TEXT("Attack hit: %s"), *HitActor->GetName());
 
 		UGameplayStatics::ApplyDamage(HitActor, AttackDamage, nullptr, GetOwner(), nullptr);
 	}
