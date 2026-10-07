@@ -56,6 +56,8 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	virtual void HandleDeath() override;
 			
 
 protected:
