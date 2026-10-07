@@ -36,30 +36,130 @@ void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void UCombatComponent::Attack()
 {
-	if (!CanAttack())
-	{
-		return;
-	}
+    UE_LOG(LogTemp, Warning, TEXT("========== ATTACK START =========="));
 
-	CombatState = ECombatState::Attacking;
-	LastAttackTime = GetWorld()->GetTimeSeconds();
+    if (!CanAttack())
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Attack blocked: CanAttack() returned FALSE"));
+        return;
+    }
 
-	UE_LOG(LogTemp, Warning, TEXT("%s started attack"), *GetOwner()->GetName());
+    CombatState = ECombatState::Attacking;
+    LastAttackTime = GetWorld()->GetTimeSeconds();
 
-	if (AttackMontage)
-	{
-		if (ACharacter* Character = Cast<ACharacter>(GetOwner()))
-		{
-			Character->PlayAnimMontage(AttackMontage);
+    UE_LOG(
+        LogTemp,
+        Warning,
+        TEXT("%s started attack | CombatState = Attacking"),
+        *GetOwner()->GetName()
+    );
 
-			if (UAnimInstance* AnimInstance = Character->GetMesh()->GetAnimInstance())
-			{
-				FOnMontageEnded MontageEndedDelegate;
-				MontageEndedDelegate.BindUObject(this, &UCombatComponent::OnAttackMontageEnded);
-				AnimInstance->Montage_SetEndDelegate(MontageEndedDelegate, AttackMontage);
-			}
-		}
-	}
+    if (!AttackMontage)
+    {
+        UE_LOG(LogTemp, Error, TEXT("AttackMontage is NULL!"));
+        return;
+    }
+
+    UE_LOG(
+        LogTemp,
+        Warning,
+        TEXT("AttackMontage found: %s"),
+        *AttackMontage->GetName()
+    );
+
+    ACharacter* Character = Cast<ACharacter>(GetOwner());
+
+    if (!Character)
+    {
+        UE_LOG(
+            LogTemp,
+            Error,
+            TEXT("Failed to cast Owner to ACharacter! Owner: %s"),
+            *GetOwner()->GetName()
+        );
+        return;
+    }
+
+    UE_LOG(
+        LogTemp,
+        Warning,
+        TEXT("Character cast successful: %s"),
+        *Character->GetName()
+    );
+
+    if (!Character->GetMesh())
+    {
+        UE_LOG(LogTemp, Error, TEXT("Character Mesh is NULL!"));
+        return;
+    }
+
+    UE_LOG(
+        LogTemp,
+        Warning,
+        TEXT("Character Mesh: %s"),
+        *Character->GetMesh()->GetName()
+    );
+
+    UAnimInstance* AnimInstance = Character->GetMesh()->GetAnimInstance();
+
+    if (!AnimInstance)
+    {
+        UE_LOG(LogTemp, Error, TEXT("AnimInstance is NULL!"));
+        return;
+    }
+
+    UE_LOG(
+        LogTemp,
+        Warning,
+        TEXT("AnimInstance found: %s"),
+        *AnimInstance->GetName()
+    );
+
+    const float MontageLength = Character->PlayAnimMontage(AttackMontage);
+
+    UE_LOG(
+        LogTemp,
+        Warning,
+        TEXT("PlayAnimMontage() returned: %f"),
+        MontageLength
+    );
+
+    if (MontageLength <= 0.0f)
+    {
+        UE_LOG(
+            LogTemp,
+            Error,
+            TEXT("Attack montage DID NOT PLAY! Return value: %f"),
+            MontageLength
+        );
+    }
+    else
+    {
+        UE_LOG(
+            LogTemp,
+            Warning,
+            TEXT("Attack montage started successfully!")
+        );
+    }
+
+    FOnMontageEnded MontageEndedDelegate;
+    MontageEndedDelegate.BindUObject(
+        this,
+        &UCombatComponent::OnAttackMontageEnded
+    );
+
+    AnimInstance->Montage_SetEndDelegate(
+        MontageEndedDelegate,
+        AttackMontage
+    );
+
+    UE_LOG(
+        LogTemp,
+        Warning,
+        TEXT("Montage end delegate registered.")
+    );
+
+    UE_LOG(LogTemp, Warning, TEXT("========== ATTACK END =========="));
 }
 
 void UCombatComponent::PerformAttackHit()
